@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="340.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.daycare_administrative_system.ChildEditController">
+   <children>
+      <ImageView fx:id="previewImage" fitHeight="128.0" fitWidth="128.0" layoutX="36.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@assets/placeholder.png" />
+         </image></ImageView>
+      <TextField fx:id="iFirstName" layoutX="301.0" layoutY="116.0" prefHeight="25.0" prefWidth="105.0" />
+      <Label layoutX="239.0" layoutY="120.0" text="First Name" />
+      <TextField fx:id="iLastName" layoutX="493.0" layoutY="116.0" prefHeight="25.0" prefWidth="105.0" />
+      <Label layoutX="431.0" layoutY="120.0" text="Last Name" />
+      <DatePicker fx:id="iDoB" layoutX="301.0" layoutY="263.0" />
+      <TextField fx:id="iCPR" layoutX="301.0" layoutY="192.0" prefHeight="25.0" prefWidth="105.0" />
+      <MenuButton fx:id="iGender" layoutX="494.0" layoutY="192.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Gender">
+        <items>
+          <MenuItem fx:id="male" mnemonicParsing="false" text="Male" />
+          <MenuItem fx:id="female" mnemonicParsing="false" text="Female" />
+            <MenuItem fx:id="nonBinary" mnemonicParsing="false" text="Non-Binary" />
+            <MenuItem fx:id="declineTS" mnemonicParsing="false" text="Decline to State" />
+        </items>
+      </MenuButton>
+      <Label layoutX="375.0" layoutY="18.0" text="Edit Child" textFill="#4bc190">
+         <font>
+            <Font name="Calibri Light" size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="275.0" layoutY="196.0" text="CPR" />
+      <Label layoutX="455.0" layoutY="196.0" text="Select" />
+      <Label layoutX="229.0" layoutY="267.0" text="Date of Birth" />
+      <Button fx:id="submit" layoutX="520.0" layoutY="263.0" mnemonicParsing="false" text="Submit" />
+      <Button fx:id="cancel" layoutX="74.0" layoutY="263.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="selectImage" layoutX="72.0" layoutY="158.0" mnemonicParsing="false" text="Choose" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="792.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.daycare_administrative_system.ChildController">
+   <children>
+      <AnchorPane prefHeight="54.0" prefWidth="1920.0" style="-fx-background-color: #e8e8e8;">
+         <children>
+            <Label layoutX="75.0" layoutY="13.0" text="Daycare Administrative System" textFill="#4bc190">
+               <font>
+                  <Font name="Calibri Light" size="24.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="302.0" fitWidth="35.0" layoutX="21.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/icon64.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="userName" layoutX="838.0" layoutY="16.0" text="Sandra Madsen" textFill="#4bc190">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="userImage" fitHeight="44.0" fitWidth="45.0" layoutX="972.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="back" layoutX="1107.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #4bc190;">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/backarrow.png" />
+                     </image></ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="add" layoutX="1041.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #4bc190;">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/add.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="refresh" layoutX="565.0" layoutY="12.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #4bc190;">
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/refresh.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children></AnchorPane>
+      <ScrollPane prefHeight="747.0" prefWidth="1184.0">
+         <content>
+            <VBox fx:id="container" prefHeight="766.0" prefWidth="1184.0" />
+         </content>
+      </ScrollPane>
+   </children>
+</VBox>
