@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="792.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.daycare_administrative_system.ChildController">
+<VBox prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.daycare_administrative_system.ChildController">
    <children>
-      <AnchorPane prefHeight="54.0" prefWidth="1920.0" style="-fx-background-color: #e8e8e8;">
+      <AnchorPane maxHeight="55.0" minHeight="55.0" prefHeight="55.0" prefWidth="1280.0" style="-fx-background-color: #e8e8e8;">
          <children>
             <Label layoutX="75.0" layoutY="13.0" text="Daycare Administrative System" textFill="#4bc190">
                <font>
@@ -19,13 +19,13 @@
                   <Image url="@assets/icon64.png" />
                </image>
             </ImageView>
-            <Label fx:id="userName" layoutX="838.0" layoutY="16.0" text="Sandra Madsen" textFill="#4bc190">
+            <Label fx:id="userName" layoutX="883.0" layoutY="16.0" text="Sandra Madsen" textFill="#4bc190">
                <font>
                   <Font name="Calibri" size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="userImage" fitHeight="44.0" fitWidth="45.0" layoutX="972.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="back" layoutX="1107.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #4bc190;">
+            <ImageView fx:id="userImage" fitHeight="44.0" fitWidth="45.0" layoutX="1018.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="back" layoutX="1199.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #4bc190;">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -33,7 +33,7 @@
                      </image></ImageView>
                </graphic>
             </Button>
-            <Button fx:id="add" layoutX="1041.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #4bc190;">
+            <Button fx:id="add" layoutX="1122.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #4bc190;">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -42,7 +42,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="refresh" layoutX="565.0" layoutY="12.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #4bc190;">
+            <Button fx:id="refresh" layoutX="613.0" layoutY="12.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #4bc190;">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -52,9 +52,47 @@
                </graphic>
             </Button>
          </children></AnchorPane>
-      <ScrollPane prefHeight="747.0" prefWidth="1184.0">
+      <AnchorPane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="1280.0">
+         <children>
+            <Label layoutX="80.0" layoutY="14.0" text="Image" underline="true">
+               <font>
+                  <Font name="Calibri Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="200.0" layoutY="14.0" prefWidth="46.0" text="Name" underline="true">
+               <font>
+                  <Font name="Calibri Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="600.0" layoutY="14.0" prefHeight="22.0" prefWidth="29.0" text="CPR" underline="true">
+               <font>
+                  <Font name="Calibri Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="450.0" layoutY="14.0" prefHeight="22.0" prefWidth="73.0" text="Birthdate" underline="true">
+               <font>
+                  <Font name="Calibri Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="700.0" layoutY="14.0" prefHeight="22.0" prefWidth="54.0" text="Gender" underline="true">
+               <font>
+                  <Font name="Calibri Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="850.0" layoutY="14.0" prefHeight="22.0" prefWidth="73.0" text="Guardian" underline="true">
+               <font>
+                  <Font name="Calibri Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="1080.0" layoutY="12.0" prefHeight="22.0" prefWidth="60.0" text="Options" underline="true">
+               <font>
+                  <Font name="Calibri Italic" size="18.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <ScrollPane prefHeight="747.0" styleClass="edge-to-edge">
          <content>
-            <VBox fx:id="container" prefHeight="766.0" prefWidth="1184.0" />
+            <VBox fx:id="container" prefWidth="1184.0" />
          </content>
       </ScrollPane>
    </children>

@@ -8,13 +8,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -22,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StaffController implements Initializable {
@@ -31,19 +30,14 @@ public class StaffController implements Initializable {
     private static final String url = "jdbc:mysql://localhost:3306/daycare";
     private static final  String user = "root";
     private static final String pass = "pass";
+    public static boolean refreshOnAdd;
 
-    @FXML
-    private ImageView userImage;
-    @FXML
-    private Label userName;
-    @FXML
-    private VBox container;
-    @FXML
-    private Button back;
-    @FXML
-    private Button add;
-    @FXML
-    private Button refresh;
+    @FXML private ImageView userImage;
+    @FXML private Label userName;
+    @FXML private VBox container;
+    @FXML private Button back;
+    @FXML private Button add;
+    @FXML private Button refresh;
 
     /* Establishes connection to the MySQL Database */
     private static void connection() {
@@ -88,15 +82,19 @@ public class StaffController implements Initializable {
                     "staff.last_name, " +
                     "staff.image, " +
                     "staff.cpr, " +
+                    "staff.company_role," +
                     "staff.date_of_birth, " +
                     "staff.gender, " +
+                    "telephone.telephone_number," +
                     "user.user_name, " +
                     "user.user_ID, " +
                     "user.password, " +
                     "user.admin " +
                     "FROM daycare.staff " +
                     "LEFT OUTER JOIN daycare.user " +
-                    "USING (user_ID) ");
+                    "USING (staff_ID) " +
+                    "LEFT OUTER JOIN daycare.telephone " +
+                    "USING (staff_ID)");
 
             resultSet = preparedStatement.executeQuery();
 
@@ -107,12 +105,14 @@ public class StaffController implements Initializable {
                         resultSet.getString("last_name"),
                         resultSet.getString("image"),
                         resultSet.getString("cpr"),
+                        resultSet.getString("company_role"),
                         resultSet.getDate("date_of_birth"),
                         resultSet.getString("gender"),
                         resultSet.getString("user_name"),
                         resultSet.getInt("user_ID"),
                         resultSet.getString("password"),
-                        resultSet.getBoolean("admin")
+                        resultSet.getBoolean("admin"),
+                        resultSet.getString("telephone_number")
                 );
             }
         } catch (SQLException e) {
@@ -122,14 +122,13 @@ public class StaffController implements Initializable {
         }
     }
 
-    // UNFINISHED
-    public void injectStaff(int id, String firstName, String lastName, String pic, String cpr, Date date, String gender, String user_name, int user_ID, String password, Boolean admin) {
+    public void injectStaff(int id, String firstName, String lastName, String pic, String cpr, String company_role, Date date, String gender, String user_name, int user_ID, String password, Boolean admin, String telephone_number) {
         // Setting up HBox container for staff instance
-        HBox hbox = new HBox();
-        hbox.setAlignment(Pos.CENTER_LEFT);
-        hbox.setPrefHeight(100.0);
-        hbox.setPrefWidth(1158.0);
-        hbox.setStyle("-fx-border-style: solid; -fx-border-color:#b3b3b3;");
+        AnchorPane innerContainer = new AnchorPane();
+        innerContainer.setPrefHeight(100.0);
+        innerContainer.setPrefWidth(1280.0);
+        innerContainer.setMinWidth(1280.0);
+        innerContainer.setStyle("-fx-border-style: solid; -fx-border-color:#b3b3b3;");
 
         // Setting up ImageView for staff profile picture
         ImageView img = new ImageView();
@@ -138,11 +137,7 @@ public class StaffController implements Initializable {
         img.setPickOnBounds(true);
         img.setPreserveRatio(true);
         Image image;
-        if (pic != null) {
-            image = new Image(pic);
-        } else {
-            image = new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/placeholder.png");
-        }
+        image = new Image(Objects.requireNonNullElse(pic, "file:src/main/resources/com/main/daycare_administrative_system/assets/placeholder.png"));
         img.setImage(image);
 
 
@@ -154,9 +149,6 @@ public class StaffController implements Initializable {
             fullName.setText("Name Unknown");
         }
         fullName.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        fullName.setAlignment(Pos.CENTER);
-        fullName.setMaxWidth(99999.0);
-        HBox.setHgrow(fullName, Priority.ALWAYS);
 
         // Setting up date of birth label
         Label dob = new Label();
@@ -165,9 +157,7 @@ public class StaffController implements Initializable {
         } else {
             dob.setText("Date of Birth Unknown");
         }
-        dob.setAlignment(Pos.CENTER);
-        dob.setMaxWidth(99999.0);
-        HBox.setHgrow(dob,Priority.ALWAYS);
+        dob.setFont(Font.font("Calibri", FontWeight.NORMAL, FontPosture.REGULAR, 15));
 
         // Setting up CPR label
         Label c = new Label();
@@ -176,100 +166,202 @@ public class StaffController implements Initializable {
         } else {
             c.setText("CPR Unknown");
         }
-        c.setAlignment(Pos.CENTER);
-        c.setMaxWidth(99999.0);
-        HBox.setHgrow(c,Priority.ALWAYS);
+        c.setFont(Font.font("Calibri", FontWeight.NORMAL, FontPosture.REGULAR, 15));
 
         // Setting up gender label
         Label g = new Label();
         if (gender != null) {
-            g.setText(gender);
+            switch (gender) {
+                case "M" -> g.setText("Male");
+                case "F" -> g.setText("Female");
+                case "N" -> g.setText("Non-Binary");
+                case "D" -> g.setText("Decline to State");
+            }
         } else {
             g.setText("Gender Unknown");
         }
-        g.setAlignment(Pos.CENTER);
-        g.setMaxWidth(99999.0);
-        HBox.setHgrow(g,Priority.ALWAYS);
+        g.setFont(Font.font("Calibri", FontWeight.NORMAL, FontPosture.REGULAR, 15));
 
-        // Setting up region to push options button to right edge
-        Region r = new Region();
-        r.prefHeight(200.0);
-        HBox.setHgrow(r, Priority.ALWAYS);
-        r.setMaxWidth(99999.0);
+        // Setting up company role label
+        Label role = new Label();
+        if (company_role != null) {
+            role.setText(company_role);
+        } else {
+            role.setText("Role Unset");
+        }
+        role.setFont(Font.font("Calibri", FontWeight.NORMAL, FontPosture.REGULAR, 15));
+
+        // Setting up phone number label
+        Label phone = new Label();
+        if (telephone_number != null) {
+            phone.setText(telephone_number);
+        } else {
+           phone.setText("N/A");
+        }
+        phone.setFont(Font.font("Calibri", FontWeight.NORMAL, FontPosture.REGULAR, 15));
+
 
         // Setting up Edit button
-        Button b = new Button();
-        b.setText("Edit");
-        b.setStyle("-fx-background-color: #7be3ad");
-        b.setOnMouseEntered(e -> b.setStyle("-fx-background-color: #4bc190;"));
-        b.setOnMouseExited(e -> b.setStyle("-fx-background-color: #7be3ad;"));
-        b.setMnemonicParsing(false);
+        Button edit = new Button();
+        edit.setText("Edit");
+        edit.setMinWidth(54.0);
+        edit.setStyle("-fx-background-color: #7be3ad");
+        edit.setOnMouseEntered(e -> edit.setStyle("-fx-background-color: #4bc190;"));
+        edit.setOnMouseExited(e -> edit.setStyle("-fx-background-color: #7be3ad;"));
+        edit.setMnemonicParsing(false);
 
         // Setting up Delete button
-        Button bu = new Button();
-        bu.setText("Delete");
-        bu.setStyle("-fx-background-color: #7be3ad");
-        bu.setOnMouseEntered(e -> bu.setStyle("-fx-background-color: red"));
-        bu.setOnMouseExited(e -> bu.setStyle("-fx-background-color: #7be3ad;"));
-        bu.setMnemonicParsing(false);
+        Button delete = new Button();
+        delete.setText("Delete");
+        delete.setMinWidth(54.0);
+        delete.setStyle("-fx-background-color: #7be3ad");
+        delete.setOnMouseEntered(e -> delete.setStyle("-fx-background-color: red"));
+        delete.setOnMouseExited(e -> delete.setStyle("-fx-background-color: #7be3ad;"));
+        delete.setMnemonicParsing(false);
 
         // Adding edit functionality
-        b.setOnAction(new EventHandler<ActionEvent>() {
+        edit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                ChildEditController.ChildToFields.getChildToFields().setChildImageURL(pic);
-                ChildEditController.ChildToFields.getChildToFields().setChildID(id);
-                ChildEditController.ChildToFields.getChildToFields().setChildFirstN(firstName);
-                ChildEditController.ChildToFields.getChildToFields().setChildLastN(lastName);
-                ChildEditController.ChildToFields.getChildToFields().setChildCPR(cpr);
-                ChildEditController.ChildToFields.getChildToFields().setChildDoB(date);
-                ChildEditController.ChildToFields.getChildToFields().setChildGender(gender);
-                Utilities.popUp("staff_edit.fxml");
+                if (pic != null) {
+                    StaffEditController.StaffToFields.getStaffToFields().setStaffImageURL(pic);
+                } else {
+                    StaffEditController.StaffToFields.getStaffToFields().setStaffImageURL("file:src/main/resources/com/main/daycare_administrative_system/assets/placeholder.png");
+                }
+                StaffEditController.StaffToFields.getStaffToFields().setStaffID(id);
+                StaffEditController.StaffToFields.getStaffToFields().setStaffFirstN(firstName);
+                StaffEditController.StaffToFields.getStaffToFields().setStaffLastN(lastName);
+                StaffEditController.StaffToFields.getStaffToFields().setStaffCPR(cpr);
+                StaffEditController.StaffToFields.getStaffToFields().setStaffDoB(date);
+                StaffEditController.StaffToFields.getStaffToFields().setStaffGender(gender);
+                StaffEditController.StaffToFields.getStaffToFields().setStaffRole(company_role);
+                StaffEditController.StaffToFields.getStaffToFields().setStaffTelephone(telephone_number);
+                StaffEditController.StaffToFields.getStaffToFields().setUserID(user_ID);
+                StaffEditController.StaffToFields.getStaffToFields().setUserName(user_name);
+                StaffEditController.StaffToFields.getStaffToFields().setUserPass(password);
+                StaffEditController.StaffToFields.getStaffToFields().setAdmin(admin);
+                Utilities.popUp("staff_edit.fxml", "Edit Staff");
+
+                // Update staff dynamically
+                try {
+                    connection();
+                    preparedStatement = connect.prepareStatement("SELECT * FROM daycare.staff " +
+                            "LEFT OUTER JOIN daycare.telephone USING (staff_ID) " +
+                            "WHERE staff_ID = ?");
+                    preparedStatement.setInt(1,StaffEditController.StaffToFields.getStaffToFields().getStaffID());
+                    resultSet = preparedStatement.executeQuery();
+                    resultSet.next();
+                    Image i = new Image(resultSet.getString("image"));
+                    img.setImage(i);
+                    fullName.setText(resultSet.getString("first_name").concat(" ").concat(resultSet.getString("last_name")));
+                    dob.setText(resultSet.getDate("date_of_birth").toString());
+                    c.setText(resultSet.getString("cpr"));
+                    switch (resultSet.getString("gender")) {
+                        case "M" -> g.setText("Male");
+                        case "F" -> g.setText("Female");
+                        case "N" -> g.setText("Non-Binary");
+                        case "D" -> g.setText("Decline to State");
+                    }
+                    role.setText(resultSet.getString("company_role"));
+                    phone.setText(resultSet.getString("telephone_number"));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
         // Adding delete functionality
-        bu.setOnAction(new EventHandler<ActionEvent>() {
+        delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
-                connection();
-                try {
-                    // Execute SQL statement
-                    preparedStatement = connect.prepareStatement("DELETE FROM daycare.child WHERE child_ID = ?");
-                    preparedStatement.setInt(1, id);
-                    preparedStatement.execute();
-
-                    // Refresh the window
-                    Stage stage = (Stage) bu.getScene().getWindow();
-                    stage.close();
-                    Utilities.changeScene(actionEvent,"child.fxml","Children menu",null,true,1200,800);
-
-                    // Display success alert
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setContentText("Child Removed!");
-                    alert.show();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                // Prevent self-deletion
+                if (id == Utilities.ConnectedUser.getConnectedUser().getStaff_ID()) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Child not removed (SQL Error)");
-                    alert.show();
+                    alert.setHeaderText("You cannot delete yourself!");
+                    alert.setTitle("Staff Deletion");
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
+                    alert.showAndWait();
+                } else {
+                    Alert alert0 = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete "+ fullName.getText() + "?", ButtonType.YES, ButtonType.NO);
+                    alert0.setHeaderText("Please Confirm Staff Deletion");
+                    alert0.setTitle("Staff Deletion");
+
+                    // Has to be done like this
+                    // Plain alert0.setGraphic(img) removes the image from the child instance node
+                    ImageView tempImage = new ImageView();
+                    tempImage.setImage(img.getImage());
+                    // Must explicitly size image, otherwise it preserves original size and makes pop-up grow
+                    tempImage.setFitHeight(64.0);
+                    tempImage.setFitWidth(64.0);
+                    alert0.setGraphic(tempImage);
+
+                    Stage popStage = (Stage) alert0.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
+
+                    alert0.showAndWait();
+
+                    if (alert0.getResult() == ButtonType.YES) {
+                        connection();
+                        try {
+                            // Execute SQL statement
+                            preparedStatement = connect.prepareStatement("DELETE FROM daycare.staff WHERE staff_ID = ?");
+                            preparedStatement.setInt(1, id);
+                            preparedStatement.execute();
+
+                            // Refresh the window
+                            Stage stage = (Stage) delete.getScene().getWindow();
+                            stage.close();
+                            Utilities.changeScene(actionEvent,"staff.fxml","Staff menu",null,true, true, 0,0);
+
+                            // Display success alert
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setContentText("Staff Removed!");
+                            alert.show();
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText("Staff not removed (SQL Error)");
+                            alert.show();
+                        }
+                    }
                 }
             }
         });
 
+        innerContainer.getChildren().addAll(img, fullName, dob, c, g, role, phone, edit, delete);
+
         // Adding margin to all elements
-        hbox.getChildren().addAll(img, fullName, dob, c, g, r, b, bu);
-        HBox.setMargin(img, new Insets(0,0,0,65.0));
-        HBox.setMargin(fullName, new Insets(0,0,0,0));
-        HBox.setMargin(dob, new Insets(0,0,0,0));
-        HBox.setMargin(c, new Insets(0,0,0,0));
-        HBox.setMargin(g, new Insets(0,0,0,0));
-        HBox.setMargin(r, new Insets(0,0,0,0));
-        HBox.setMargin(b, new Insets(0,20.0,0,0));
-        HBox.setMargin(bu, new Insets(0,65.0,0,0));
-        container.getChildren().add(hbox);
+        img.setLayoutX(80.0);
+        img.setLayoutY(20.0);
+
+        fullName.setLayoutX(200.0);
+        fullName.setLayoutY(40.0);
+
+        dob.setLayoutX(450.0);
+        dob.setLayoutY(42.5);
+
+        c.setLayoutX(600.0);
+        c.setLayoutY(42.5);
+
+        g.setLayoutX(700.0);
+        g.setLayoutY(42.5);
+
+        role.setLayoutX(825.0);
+        role.setLayoutY(42.5);
+
+        phone.setLayoutX(925.0);
+        phone.setLayoutY(42.5);
+
+        edit.setLayoutX(1080.0);
+        edit.setLayoutY(40.0);
+
+        delete.setLayoutX(1159.0);
+        delete.setLayoutY(40.0);
+
+        container.getChildren().add(innerContainer);
     }
 
     @Override
@@ -281,7 +373,7 @@ public class StaffController implements Initializable {
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Utilities.changeScene(actionEvent, "main.fxml","Daycare Centre Administrative System", null, true,1200,800);
+                Utilities.changeScene(actionEvent, "main.fxml","Main Menu", null, true, true, 0,0);
             }
         });
         back.setOnMouseEntered(l->{
@@ -294,7 +386,14 @@ public class StaffController implements Initializable {
         add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Utilities.popUp("staff_add.fxml");
+                Utilities.popUp("staff_add.fxml", "Add Staff");
+
+                if (refreshOnAdd) {
+                    Stage stage = (Stage) add.getScene().getWindow();
+                    stage.close();
+                    Utilities.changeScene(actionEvent, "staff.fxml","Staff Menu", null, true, true, 0,0);
+                    refreshOnAdd = false;
+                }
             }
         });
         add.setOnMouseEntered(l->{
@@ -310,7 +409,7 @@ public class StaffController implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 Stage stage = (Stage) refresh.getScene().getWindow();
                 stage.close();
-                Utilities.changeScene(actionEvent, "staff.fxml","Staff Menu", null, true,1200,800);
+                Utilities.changeScene(actionEvent, "staff.fxml","Staff Menu", null, true, true, 0,0);
             }
         });
         refresh.setOnMouseEntered(l->{

@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="565.0" prefWidth="198.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.daycare_administrative_system.SignInController">
+<AnchorPane prefHeight="559.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.daycare_administrative_system.SignInController">
    <children>
-      <ImageView cache="true" cacheHint="QUALITY" fitHeight="565.0" fitWidth="375.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView cache="true" cacheHint="QUALITY" fitHeight="566.0" fitWidth="376.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/auth.jpg" />
          </image>

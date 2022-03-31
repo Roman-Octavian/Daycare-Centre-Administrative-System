@@ -30,14 +30,6 @@ public class ChildEditController implements Initializable {
         private ChildToFields() {
         }
 
-        private ChildToFields(int childID, String childFirstN, String childLastN, String childImageURL, String childCPR, String childGender) {
-            this.childID = childID;
-            this.childFirstN = childFirstN;
-            this.childLastN = childLastN;
-            this.childImageURL = childImageURL;
-            this.childCPR = childGender;
-        }
-
         public static ChildToFields getChildToFields() {
             return childToAdd;
         }
@@ -97,38 +89,28 @@ public class ChildEditController implements Initializable {
         public void setChildDoB(Date childDoB) {
             this.childDoB = childDoB;
         }
+
     }
 
 
 
-    private String imageURL;
 
-    @FXML
-    private Button submit;
-    @FXML
-    private Button cancel;
-    @FXML
-    private Button selectImage;
-    @FXML
-    private TextField iFirstName;
-    @FXML
-    private TextField iLastName;
-    @FXML
-    private TextField iCPR;
-    @FXML
-    private MenuButton iGender;
-    @FXML
-    private DatePicker iDoB;
-    @FXML
-    private MenuItem male;
-    @FXML
-    private MenuItem female;
-    @FXML
-    private MenuItem nonBinary;
-    @FXML
-    private MenuItem declineTS;
-    @FXML
-    private ImageView previewImage;
+
+    @FXML private Button submit;
+    @FXML private Button cancel;
+    @FXML private Button selectImage;
+    @FXML private TextField iFirstName;
+    @FXML private TextField iLastName;
+    @FXML private TextField iCPR;
+    @FXML private MenuButton iGender;
+    @FXML private DatePicker iDoB;
+    @FXML private MenuItem male;
+    @FXML private MenuItem female;
+    @FXML private MenuItem nonBinary;
+    @FXML private MenuItem declineTS;
+    @FXML private ImageView previewImage;
+    // Auxiliary to the ImageView
+    private String imageURL;
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
@@ -163,12 +145,20 @@ public class ChildEditController implements Initializable {
                     Stage stage = (Stage) submit.getScene().getWindow();
                     stage.close();
 
-                    alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setContentText("Child Edited!");
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Child Edited Successfully!");
+                    alert.setTitle("Child Edit");
+                    alert.setHeaderText("Operation Finalized");
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
 
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Something went wrong!");
+                    alert.setContentText("Something went wrong! Check for errors in your fields.");
+                    alert.setTitle("Child Edit");
+                    alert.setHeaderText("Operation Failed");
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
                 }
                 alert.show();
             }
@@ -218,6 +208,10 @@ public class ChildEditController implements Initializable {
                     e.printStackTrace();
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Something went wrong!");
+                    alert.setTitle("Image Submission");
+                    alert.setHeaderText("Operation Failed");
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
                     alert.show();
                 }
             }

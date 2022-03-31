@@ -3,9 +3,7 @@ package com.main.daycare_administrative_system;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,42 +11,26 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.*;
 import java.util.ResourceBundle;
 
 public class ChildAddController implements Initializable {
 
-    private String imageURL;
+    private String imageURL = "file:src/main/resources/com/main/daycare_administrative_system/assets/placeholder.png";
 
-    @FXML
-    private Button submit;
-    @FXML
-    private Button cancel;
-    @FXML
-    private Button selectImage;
-    @FXML
-    private TextField iFirstName;
-    @FXML
-    private TextField iLastName;
-    @FXML
-    private TextField iCPR;
-    @FXML
-    private MenuButton iGender;
-    @FXML
-    private DatePicker iDoB;
-    @FXML
-    private MenuItem male;
-    @FXML
-    private MenuItem female;
-    @FXML
-    private MenuItem nonBinary;
-    @FXML
-    private MenuItem declineTS;
-    @FXML
-    private ImageView previewImage;
-
+    @FXML private Button submit;
+    @FXML private Button cancel;
+    @FXML private Button selectImage;
+    @FXML private TextField iFirstName;
+    @FXML private TextField iLastName;
+    @FXML private TextField iCPR;
+    @FXML private MenuButton iGender;
+    @FXML private DatePicker iDoB;
+    @FXML private MenuItem male;
+    @FXML private MenuItem female;
+    @FXML private MenuItem nonBinary;
+    @FXML private MenuItem declineTS;
+    @FXML private ImageView previewImage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,6 +41,9 @@ public class ChildAddController implements Initializable {
                 stage.close();
             }
         });
+        /* Handles submit button. Tries to add child with Utility function.
+         If successful, prints out confirmation, closes stage and sets variable to refresh Child Menu
+         If not, displays error message. */
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -69,16 +54,28 @@ public class ChildAddController implements Initializable {
                     Stage stage = (Stage) submit.getScene().getWindow();
                     stage.close();
 
-                    alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setContentText("Child Added!");
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Child Added Successfully!");
+                    alert.setTitle("Add Child");
+                    alert.setHeaderText("Operation Finalized");
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
+                    ChildController.refreshOnAdd = true;
 
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Something went wrong!");
+                    alert.setTitle("Add Child");
+                    alert.setHeaderText("Operation Failed");
+
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
                 }
-                alert.show();
+                alert.showAndWait();
             }
         });
+
+        // Set action for gender MenuButton options
         male.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -105,13 +102,15 @@ public class ChildAddController implements Initializable {
         });
 
         // Works, but is bound to my machine; could not get platform-independent version to work.
+        // Sets an image to be added to the child
         selectImage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.getExtensionFilters().addAll(
                         new FileChooser.ExtensionFilter("PNG images","*.png"),
-                        new FileChooser.ExtensionFilter("JPG images", "*.jpg")
+                        new FileChooser.ExtensionFilter("JPG images", "*.jpg"),
+                        new FileChooser.ExtensionFilter("GIF images", "*.gif")
                 );
                 Stage stage = (Stage) selectImage.getScene().getWindow();
                 File selectedFile = fileChooser.showOpenDialog(stage);

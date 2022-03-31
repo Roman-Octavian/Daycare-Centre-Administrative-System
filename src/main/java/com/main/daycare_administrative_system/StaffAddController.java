@@ -15,39 +15,27 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class StaffAddController implements Initializable {
-    private String imageURL;
-    @FXML
-    private Button submit;
-    @FXML
-    private Button cancel;
-    @FXML
-    private Button selectImage;
-    @FXML
-    private TextField iFirstName;
-    @FXML
-    private TextField iLastName;
-    @FXML
-    private TextField iCPR;
-    @FXML
-    private MenuButton iGender;
-    @FXML
-    private DatePicker iDoB;
-    @FXML
-    private TextField iUser;
-    @FXML
-    private PasswordField iPass;
-    @FXML
-    private CheckBox iAdmin;
-    @FXML
-    private MenuItem male;
-    @FXML
-    private MenuItem female;
-    @FXML
-    private MenuItem nonBinary;
-    @FXML
-    private MenuItem declineTS;
-    @FXML
-    private ImageView previewImage;
+
+    private String imageURL = "file:src/main/resources/com/main/daycare_administrative_system/assets/placeholder.png";
+
+    @FXML private Button submit;
+    @FXML private Button cancel;
+    @FXML private Button selectImage;
+    @FXML private TextField iFirstName;
+    @FXML private TextField iLastName;
+    @FXML private TextField iCPR;
+    @FXML private MenuButton iGender;
+    @FXML private TextField iTelephone;
+    @FXML private TextField iRole;
+    @FXML private DatePicker iDoB;
+    @FXML private TextField iUser;
+    @FXML private PasswordField iPass;
+    @FXML private CheckBox iAdmin;
+    @FXML private MenuItem male;
+    @FXML private MenuItem female;
+    @FXML private MenuItem nonBinary;
+    @FXML private MenuItem declineTS;
+    @FXML private ImageView previewImage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,19 +49,29 @@ public class StaffAddController implements Initializable {
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                boolean check = Utilities.addStaff(imageURL,iFirstName.getText(),iLastName.getText(),iCPR.getText(),java.sql.Date.valueOf(iDoB.getValue()),iGender.getText(), iUser.getText(), iPass.getText(), iAdmin.isSelected(), 1);
+                boolean check = Utilities.addStaff(imageURL, iFirstName.getText(), iLastName.getText(), iCPR.getText(),java.sql.Date.valueOf(iDoB.getValue()),iGender.getText(), iRole.getText(), iTelephone.getText(), iUser.getText(), iPass.getText(), iAdmin.isSelected());
                 Alert alert;
                 if (check) {
                     // Close windows
                     Stage stage = (Stage) submit.getScene().getWindow();
                     stage.close();
 
-                    alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setContentText("Child Added!");
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Staff Added Successfully!");
+                    alert.setTitle("Add Staff");
+                    alert.setHeaderText("Operation Finalized");
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
+
+                    StaffController.refreshOnAdd = true;
 
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Something went wrong!");
+                    alert.setTitle("Add Staff");
+                    alert.setHeaderText("Operation Failed");
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
                 }
                 alert.show();
             }
@@ -110,7 +108,8 @@ public class StaffAddController implements Initializable {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.getExtensionFilters().addAll(
                         new FileChooser.ExtensionFilter("PNG images","*.png"),
-                        new FileChooser.ExtensionFilter("JPG images", "*.jpg")
+                        new FileChooser.ExtensionFilter("JPG images", "*.jpg"),
+                        new FileChooser.ExtensionFilter("GIF images", "*.gif")
                 );
                 Stage stage = (Stage) selectImage.getScene().getWindow();
                 File selectedFile = fileChooser.showOpenDialog(stage);

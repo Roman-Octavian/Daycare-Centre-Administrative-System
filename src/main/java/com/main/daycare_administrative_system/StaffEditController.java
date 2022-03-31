@@ -22,26 +22,12 @@ public class StaffEditController implements Initializable {
      * The information can then be utilized to dynamically customize the GUI anywhere */
     public static class StaffToFields {
         private static StaffToFields staffToAdd = new StaffToFields();
-        private int staffID, userID;
-        private String staffFirstN, staffLastN, staffImageURL, staffCPR, staffGender, userName, userPass;
+        private int staffID, userID, telephoneID;
+        private String staffFirstN, staffLastN, staffImageURL, staffCPR, staffGender, staffRole, staffTelephone, userName, userPass;
         private Date staffDoB;
         private Boolean admin;
 
         private StaffToFields() {
-        }
-
-        public StaffToFields(int staffID, int userID, String staffFirstN, String staffLastN, String staffImageURL, String staffCPR, String staffGender, String userName, String userPass, Date staffDoB, Boolean admin) {
-            this.staffID = staffID;
-            this.userID = userID;
-            this.staffFirstN = staffFirstN;
-            this.staffLastN = staffLastN;
-            this.staffImageURL = staffImageURL;
-            this.staffCPR = staffCPR;
-            this.staffGender = staffGender;
-            this.userName = userName;
-            this.userPass = userPass;
-            this.staffDoB = staffDoB;
-            this.admin = admin;
         }
 
         public static StaffToFields getStaffToFields() {
@@ -70,6 +56,14 @@ public class StaffEditController implements Initializable {
 
         public void setUserID(int userID) {
             this.userID = userID;
+        }
+
+        public int getTelephoneID() {
+            return telephoneID;
+        }
+
+        public void setTelephoneID(int telephoneID) {
+            this.telephoneID = telephoneID;
         }
 
         public String getStaffFirstN() {
@@ -136,6 +130,22 @@ public class StaffEditController implements Initializable {
             this.staffDoB = staffDoB;
         }
 
+        public String getStaffRole() {
+            return staffRole;
+        }
+
+        public void setStaffRole(String staffRole) {
+            this.staffRole = staffRole;
+        }
+
+        public String getStaffTelephone() {
+            return staffTelephone;
+        }
+
+        public void setStaffTelephone(String staffTelephone) {
+            this.staffTelephone = staffTelephone;
+        }
+
         public Boolean getAdmin() {
             return admin;
         }
@@ -143,42 +153,29 @@ public class StaffEditController implements Initializable {
         public void setAdmin(Boolean admin) {
             this.admin = admin;
         }
+
     }
 
     private String imageURL;
 
-    @FXML
-    private Button submit;
-    @FXML
-    private Button cancel;
-    @FXML
-    private Button selectImage;
-    @FXML
-    private TextField iFirstName;
-    @FXML
-    private TextField iLastName;
-    @FXML
-    private TextField iCPR;
-    @FXML
-    private MenuButton iGender;
-    @FXML
-    private DatePicker iDoB;
-    @FXML
-    private TextField iUser;
-    @FXML
-    private PasswordField iPass;
-    @FXML
-    private CheckBox iAdmin;
-    @FXML
-    private MenuItem male;
-    @FXML
-    private MenuItem female;
-    @FXML
-    private MenuItem nonBinary;
-    @FXML
-    private MenuItem declineTS;
-    @FXML
-    private ImageView previewImage;
+    @FXML private Button submit;
+    @FXML private Button cancel;
+    @FXML private Button selectImage;
+    @FXML private TextField iFirstName;
+    @FXML private TextField iLastName;
+    @FXML private TextField iCPR;
+    @FXML private MenuButton iGender;
+    @FXML private TextField iTelephone;
+    @FXML private TextField iRole;
+    @FXML private DatePicker iDoB;
+    @FXML private TextField iUser;
+    @FXML private PasswordField iPass;
+    @FXML private CheckBox iAdmin;
+    @FXML private MenuItem male;
+    @FXML private MenuItem female;
+    @FXML private MenuItem nonBinary;
+    @FXML private MenuItem declineTS;
+    @FXML private ImageView previewImage;
 
 
     public void setImageURL(String imageURL) {
@@ -192,16 +189,13 @@ public class StaffEditController implements Initializable {
         iLastName.setText(StaffToFields.getStaffToFields().getStaffLastN());
         iCPR.setText(StaffToFields.getStaffToFields().getStaffCPR());
         iGender.setText(StaffToFields.getStaffToFields().getStaffGender());
+        iTelephone.setText(StaffToFields.getStaffToFields().getStaffTelephone());
+        iRole.setText(StaffToFields.getStaffToFields().getStaffRole());
         iDoB.setValue(StaffToFields.getStaffToFields().getStaffDoB().toLocalDate());
         iUser.setText(StaffToFields.getStaffToFields().getUserName());
         iPass.setText(StaffToFields.getStaffToFields().getUserPass());
         iAdmin.setSelected(StaffToFields.getStaffToFields().getAdmin());
-        if (imageURL != null) {
-            setImageURL(StaffToFields.getStaffToFields().getStaffImageURL());
-        } else {
-            setImageURL("file:src/main/resources/com/main/daycare_administrative_system/assets/placeholder.png");
-        }
-
+        setImageURL(StaffToFields.getStaffToFields().getStaffImageURL());
         Image i = new Image(imageURL);
         previewImage.setImage(i);
 
@@ -215,19 +209,40 @@ public class StaffEditController implements Initializable {
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                boolean check = Utilities.editStaff(StaffToFields.getStaffToFields().getStaffID(),StaffToFields.getStaffToFields().getUserID(),iUser.getText(),iPass.getText(),iAdmin.isSelected(),imageURL,iFirstName.getText(),iLastName.getText(),iCPR.getText(), Date.valueOf(iDoB.getValue()),iGender.getText());
+                boolean check = Utilities.editStaff(
+                        StaffToFields.getStaffToFields().getStaffID(),
+                        iUser.getText(),
+                        iPass.getText(),
+                        iAdmin.isSelected(),
+                        imageURL,
+                        iFirstName.getText(),
+                        iLastName.getText(),
+                        iCPR.getText(),
+                        iTelephone.getText(),
+                        iRole.getText(),
+                        Date.valueOf(iDoB.getValue()),
+                        iGender.getText());
+
                 Alert alert;
                 if (check) {
                     // Close windows
                     Stage stage = (Stage) submit.getScene().getWindow();
                     stage.close();
 
-                    alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setContentText("Staff Edited!");
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Staff Edited Successfully!");
+                    alert.setTitle("Staff Edit");
+                    alert.setHeaderText("Operation Finalized");
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
 
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Something went wrong!");
+                    alert.setContentText("Something went wrong! Check for errors in your fields.");
+                    alert.setTitle("Staff Edit");
+                    alert.setHeaderText("Operation Failed");
+                    Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
                 }
                 alert.show();
             }
@@ -264,7 +279,8 @@ public class StaffEditController implements Initializable {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.getExtensionFilters().addAll(
                         new FileChooser.ExtensionFilter("PNG images","*.png"),
-                        new FileChooser.ExtensionFilter("JPG images", "*.jpg")
+                        new FileChooser.ExtensionFilter("JPG images", "*.jpg"),
+                        new FileChooser.ExtensionFilter("GIF images", "*.gif")
                 );
                 Stage stage = (Stage) selectImage.getScene().getWindow();
                 File selectedFile = fileChooser.showOpenDialog(stage);

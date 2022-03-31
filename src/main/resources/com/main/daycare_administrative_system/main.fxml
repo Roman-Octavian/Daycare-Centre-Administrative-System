@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.daycare_administrative_system.MenuController">
+<VBox prefHeight="597.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.daycare_administrative_system.MenuController">
    <children>
-      <AnchorPane prefHeight="54.0" prefWidth="1920.0" style="-fx-background-color: #e8e8e8;">
+      <AnchorPane maxHeight="55.0" minHeight="55.0" prefHeight="55.0" prefWidth="1280.0" style="-fx-background-color: #e8e8e8;">
          <children>
             <Label layoutX="75.0" layoutY="13.0" text="Daycare Administrative System" textFill="#4bc190">
                <font>
@@ -20,17 +20,17 @@
                   <Image url="@assets/icon64.png" />
                </image>
             </ImageView>
-            <Label fx:id="userName" layoutX="867.0" layoutY="17.0" text="Sandra Madsen" textFill="#4bc190">
+            <Label fx:id="userName" layoutX="963.0" layoutY="17.0" text="Sandra Madsen" textFill="#4bc190">
                <font>
                   <Font name="Calibri" size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="userImage" fitHeight="44.0" fitWidth="45.0" layoutX="994.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="signOut" layoutX="1079.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: #4bc190;" text="Sign Out" />
+            <ImageView fx:id="userImage" fitHeight="45.0" fitWidth="45.0" layoutX="1099.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="signOut" layoutX="1189.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: #4bc190;" text="Sign Out" />
          </children></AnchorPane>
-      <AnchorPane prefHeight="739.0" prefWidth="1184.0">
+      <AnchorPane prefHeight="542.0" prefWidth="1280.0">
          <children>
-            <HBox alignment="CENTER" layoutY="200.0" prefHeight="175.0" prefWidth="1184.0" spacing="50.0">
+            <HBox alignment="CENTER" layoutX="48.0" layoutY="79.0" prefHeight="175.0" prefWidth="1184.0" spacing="50.0">
                <children>
                   <VBox fx:id="childrenMenu" alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="150.0" style="-fx-border-style: solid; -fx-border-radius: 5px; -fx-background-color: #ffffff;">
                      <children>
@@ -49,7 +49,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox fx:id="parentsMenu" alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="150.0" style="-fx-border-style: solid; -fx-border-radius: 5px; -fx-background-color: #ffffff;">
+                  <VBox fx:id="guardiansMenu" alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="150.0" style="-fx-border-style: solid; -fx-border-radius: 5px; -fx-background-color: #ffffff;">
                      <children>
                         <ImageView fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -66,29 +66,12 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox fx:id="scheduleMenu" alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="150.0" style="-fx-border-style: solid; -fx-border-radius: 5px; -fx-background-color: #ffffff;">
-                     <children>
-                        <ImageView fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@assets/schedulemenu.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets top="5.0" />
-                           </VBox.margin>
-                        </ImageView>
-                        <Label prefHeight="22.0" prefWidth="85.0" text="Work Schedules">
-                           <padding>
-                              <Insets bottom="5.0" />
-                           </padding>
-                        </Label>
-                     </children>
-                  </VBox>
                </children>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </HBox>
-            <HBox alignment="CENTER" layoutY="420.0" prefHeight="164.0" prefWidth="1184.0" spacing="50.0">
+            <HBox alignment="CENTER" layoutX="48.0" layoutY="307.0" prefHeight="164.0" prefWidth="1184.0" spacing="50.0">
                <children>
                   <VBox fx:id="telephoneMenu" alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="150.0" style="-fx-border-style: solid; -fx-border-radius: 5px; -fx-background-color: #ffffff;">
                      <children>

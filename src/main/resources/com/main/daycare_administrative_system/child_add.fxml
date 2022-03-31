@@ -36,5 +36,9 @@
       <Button fx:id="submit" layoutX="520.0" layoutY="263.0" mnemonicParsing="false" text="Submit" />
       <Button fx:id="cancel" layoutX="74.0" layoutY="263.0" mnemonicParsing="false" text="Cancel" />
       <Button fx:id="selectImage" layoutX="72.0" layoutY="158.0" mnemonicParsing="false" text="Choose" />
+      <Label layoutX="231.0" layoutY="122.0" text="*" textFill="RED" />
+      <Label layoutX="266.0" layoutY="198.0" text="*" textFill="RED" />
+      <Label layoutX="446.0" layoutY="198.0" text="*" textFill="RED" />
+      <Label layoutX="222.0" layoutY="268.0" text="*" textFill="RED" />
    </children>
 </AnchorPane>
