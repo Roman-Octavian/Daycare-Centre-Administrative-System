@@ -2,7 +2,7 @@
 
 
 ## Project description
-Administrative System mini-project at KEA DAT21i. This is a full-stack JavaFX native program which aspires to satisfy the needs of a Daycare Centre in Denmark. As per the [project requirements](Project%20Report/Daycare%20Project.pdf), the application should be capable of displaying and storing information from and in a database, whilst simultaneously being intuitive and easy to use by means of a user interface.
+Administrative System mini-project at KEA DAT21i. This is a full-stack JavaFX native program which aspires to satisfy the needs of a Daycare Centre in Denmark. As per the [project requirements](Project%20Report/Daycare_Project.pdf), the application should be capable of displaying and storing information from and in a database, whilst simultaneously being intuitive and easy to use by means of a user interface.
 
 Use cases of this application include but are not limited to:
 * Viewing children, guardians, staff members and phone numbers stored in the database
@@ -11,7 +11,7 @@ Use cases of this application include but are not limited to:
 
 The application turned out quite well, but there are some issues and edge scenarios that have not been fixed yet. Moreover, making programs fully responsive with JavaFX is a very time-consuming task, meaning that the UI has been hardcoded to look good for a specific screen size, and going above or below that will result in the GUI not looking as intended. The aforementioned does not hinder usage, but it does have a significant aestethic impact.
 
-As a picture speaks more than a thousand words, here are some pictures of the GUI:
+As "a picture speaks more than a thousand words", here are some images of the GUI:
 
 ![Authentication View](src/main/resources/com/main/daycare_administrative_system/assets/Authentication.png)
 
@@ -61,7 +61,8 @@ Creating a new guardian. Children and Guardians are linked by means of the "Sele
 Staff Edition Window. If desired, "username" and "password" can be filled in or erased to provide or revoke access to the system.
 Likewise, "Admin" can be selected or de-selected to grant or revoke access to the "Staff" Menu.
 
-
+<br>
+<br>
 
 
 Features that should be implemented in the future should be but are not limited to:
@@ -71,4 +72,4 @@ Features that should be implemented in the future should be but are not limited 
 * Edge case scenarios where program does not function as intended should be fixed. E.G. Re-opening the edit view for an instance after initial edit won't show the latest changes without manual refresh.
 
 
-1. [Image Attributions](src/main/resources/com/main/daycare_administrative_system/assets/LICENSE-DISCLAIMER.txt)
+[Image Attributions](src/main/resources/com/main/daycare_administrative_system/assets/LICENSE-DISCLAIMER.txt)
