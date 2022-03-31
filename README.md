@@ -2,14 +2,14 @@
 
 
 ## Project description
-Administrative System mini-project at KEA DAT21i. This is a full-stack JavaFX native program which aspires to satisfy the needs of a Daycare Centre in Denmark. As per the [project requirements](Project%20Report/Daycare_Project.pdf), the application should be capable of displaying and storing information from and in a database, whilst simultaneously being intuitive and easy to use by means of a user interface.
+Administrative System mini-project at KEA DAT21i. This is a full-stack JavaFX native program which aspires to satisfy the administrative needs of a Daycare Centre in Denmark. As per the [project requirements](Project%20Report/Daycare_Project.pdf), the application should be capable of displaying and storing information from and in a database, whilst simultaneously being intuitive and easy to use by means of a user interface.
 
 Use cases of this application include but are not limited to:
 * Viewing children, guardians, staff members and phone numbers stored in the database
 * Adding children, guardians and staff members with all of their particulars.
 * Editing children, guardians and staff members with all of their particulars.
 
-The application turned out quite well, but there are some issues and edge scenarios that have not been fixed yet. Moreover, making programs fully responsive with JavaFX is a very time-consuming task, meaning that the UI has been hardcoded to look good for a specific screen size, and going above or below that will result in the GUI not looking as intended. The aforementioned does not hinder usage, but it does have a significant aestethic impact.
+The application turned out quite well, but there are some issues and edge scenarios that have not been fixed yet. Moreover, making programs fully responsive with JavaFX is a very time-consuming task, meaning that the UI has been "hard-coded" to look good for a specific screen size, and going above or below that will result in the GUI not looking as intended. The aforementioned does not hinder usage, but it does have a significant aestethic impact.
 
 As "a picture speaks more than a thousand words", here are some images of the GUI:
 
