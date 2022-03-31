@@ -109,6 +109,7 @@ public class ChildEditController implements Initializable {
     @FXML private MenuItem nonBinary;
     @FXML private MenuItem declineTS;
     @FXML private ImageView previewImage;
+
     // Auxiliary to the ImageView
     private String imageURL;
 
@@ -119,6 +120,7 @@ public class ChildEditController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Load child data into fields from Singleton
         iFirstName.setText(ChildToFields.getChildToFields().getChildFirstN());
         iLastName.setText(ChildToFields.getChildToFields().getChildLastN());
         iCPR.setText(ChildToFields.getChildToFields().getChildCPR());
@@ -128,6 +130,7 @@ public class ChildEditController implements Initializable {
         Image i = new Image(imageURL);
         previewImage.setImage(i);
 
+        // Cancel button functionality
         cancel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -135,6 +138,8 @@ public class ChildEditController implements Initializable {
                 stage.close();
             }
         });
+
+        // Submit button functionality
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 
 public class ChildAddController implements Initializable {
 
+    // Separate variable to store the image URL
     private String imageURL = "file:src/main/resources/com/main/daycare_administrative_system/assets/placeholder.png";
 
     @FXML private Button submit;
@@ -34,6 +35,7 @@ public class ChildAddController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Cancel button functionality
         cancel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -41,36 +43,45 @@ public class ChildAddController implements Initializable {
                 stage.close();
             }
         });
+
         /* Handles submit button. Tries to add child with Utility function.
          If successful, prints out confirmation, closes stage and sets variable to refresh Child Menu
          If not, displays error message. */
         submit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                // Tries to run addChild with the provided data. Stores result in a boolean variable.
                 boolean check = Utilities.addChild(imageURL,iFirstName.getText(),iLastName.getText(),iCPR.getText(),java.sql.Date.valueOf(iDoB.getValue()),iGender.getText());
+
                 Alert alert;
-                if (check) {
-                    // Close windows
+
+                if (check) { // If successful:
+                    // Close "Add User" Pop-Up window
                     Stage stage = (Stage) submit.getScene().getWindow();
                     stage.close();
 
+                    // Prepares alert to confirm successful child addition
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setContentText("Child Added Successfully!");
                     alert.setTitle("Add Child");
                     alert.setHeaderText("Operation Finalized");
                     Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
                     popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
+
+                    /* Flips variable to true in ChildController.
+                    This is then used to refresh the view in order to display the new entry */
                     ChildController.refreshOnAdd = true;
 
-                } else {
+                } else { // If unsuccessful:
+                    // Prepares error alert
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Something went wrong!");
                     alert.setTitle("Add Child");
                     alert.setHeaderText("Operation Failed");
-
                     Stage popStage = (Stage) alert.getDialogPane().getScene().getWindow();
                     popStage.getIcons().add(new Image("file:src/main/resources/com/main/daycare_administrative_system/assets/icon64.png"));
                 }
+                // Show alert
                 alert.showAndWait();
             }
         });

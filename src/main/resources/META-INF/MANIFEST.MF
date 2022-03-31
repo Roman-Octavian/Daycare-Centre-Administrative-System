@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Main-Class: com.main.daycare_administrative_system.SignIn
+Class-Path: javafx-fxml-17-ea+11-win.jar javafx-graphics-17-ea+11-win.ja
+ r javafx-graphics-17-ea+11.jar javafx-base-17-ea+11-win.jar javafx-fxml
+ -17-ea+11.jar javafx-base-17-ea+11.jar javafx-controls-17-ea+11.jar mys
+ ql-connector-java-8.0.28.jar javafx-controls-17-ea+11-win.jar
+

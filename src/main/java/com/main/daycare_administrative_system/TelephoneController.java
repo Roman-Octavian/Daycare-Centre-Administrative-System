@@ -6,9 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -16,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
@@ -69,6 +65,13 @@ public class TelephoneController implements Initializable {
         }
     }
 
+    /**
+     * Takes phone number, first name, and last name, and generates a UI element AnchorPane.
+     * This Pane can then be injected into a view dynamically every time the view is initialized.
+     * @param t telephone number to print out
+     * @param firstName to concatenate as first part of fullName
+     * @param lastName to concatenate as last part of fullName
+     */
     public void injectTelephone(String t, String firstName, String lastName) {
         // Setting up HBox container for guardian instance
         AnchorPane innerContainer = new AnchorPane();
@@ -106,6 +109,10 @@ public class TelephoneController implements Initializable {
         container.getChildren().add(innerContainer);
     }
 
+    /**
+     * Makes use of the injectTelephone function to dynamically generate the entries belonging to Staff members that can be found in the Telephone Menu.
+     * Iterates through the entire 'staff' table, and for each instance, it injects a Pane element into the view with injectTelephone.
+     */
     public void retrieveSTelephones() {
         connection();
 
@@ -136,6 +143,10 @@ public class TelephoneController implements Initializable {
         }
     }
 
+    /**
+     * Makes use of the injectTelephone function to dynamically generate the entries belonging to guardians that can be found in the Telephone Menu.
+     * Iterates through the entire 'guardian' table, and for each instance, it injects a Pane element into the view with injectTelephone.
+     */
     public void retrieveGTelephones() {
         connection();
 
@@ -170,11 +181,16 @@ public class TelephoneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Set the username and image on the navbar to the logged user stored in the ConnectedUser singleton.
+        // This should probably be a function, but I won't change too much "a posteriori" not to impact the accuracy of the code review.
         userName.setText(Utilities.ConnectedUser.getConnectedUser().getFirstName().concat(" ").concat(Utilities.ConnectedUser.getConnectedUser().getLastName()));
         userImage.setImage(new Image(Utilities.ConnectedUser.getConnectedUser().getImage()));
+
+        // Inject telephone numbers for each instance in the database.
         retrieveGTelephones();
         retrieveSTelephones();
 
+        // Back button functionality and hover effect.
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

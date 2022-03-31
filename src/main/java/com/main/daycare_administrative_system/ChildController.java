@@ -22,6 +22,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ChildController implements Initializable {
+    // Variable that is flipped if Child is added correctly in "ChildAddController"
+    // We can use this to then refresh the page and show the new entry without user input
     public static boolean refreshOnAdd;
 
     private static PreparedStatement preparedStatement = null;
@@ -71,6 +73,11 @@ public class ChildController implements Initializable {
         }
     }
 
+    /**
+     * Makes use of the injectChildren function to dynamically generate the entries belonging to children that can be found in the Children Menu.
+     * Iterates through the entire 'staff' table, and for each instance, it injects a Pane element into the view with injectTelephone.
+     * @param order Concatenated into SQL query to change the order in which the entries are displayed. This could potentially be improved to integrate UI elements that can flip the order, as in a TableView.
+     */
     public void retrieveChildren(String order) {
         connection();
 
@@ -112,6 +119,19 @@ public class ChildController implements Initializable {
         }
     }
 
+    /**
+     * Takes child data, and generates a UI element AnchorPane with it.
+     * This Pane can then be injected into a view dynamically every time the view is initialized.
+     * @param id ID of the child instance
+     * @param firstName first name of the child instance
+     * @param lastName last name of the child instance
+     * @param pic image URL of the child instance
+     * @param cpr CPR number of the child instance
+     * @param date date of birth of the child instance
+     * @param gender gender of the child instance
+     * @param guardianFirstName first name of the guardian of the child instance
+     * @param guardianLastName last name of the guardian of the child instance
+     */
     public void injectChild(int id, String firstName, String lastName, String pic, String cpr, Date date, String gender, String guardianFirstName, String guardianLastName) {
         // Setting up HBox container for child instance
         AnchorPane innerContainer = new AnchorPane();
@@ -324,15 +344,21 @@ public class ChildController implements Initializable {
         delete.setLayoutX(1159.0);
         delete.setLayoutY(40.0);
 
+        // Add everything to the "container" GUI Pane that can then be injected into the view
         container.getChildren().add(innerContainer);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Set the username and image on the navbar to the logged user stored in the ConnectedUser singleton.
+        // This should probably be a function, but I won't change too much "a posteriori" not to impact the accuracy of the code review.
         userName.setText(Utilities.ConnectedUser.getConnectedUser().getFirstName().concat(" ").concat(Utilities.ConnectedUser.getConnectedUser().getLastName()));
         userImage.setImage(new Image(Utilities.ConnectedUser.getConnectedUser().getImage()));
+
+        // Retrieve children dynamically in ascending order
         retrieveChildren("ASC");
 
+        // Back button functionality and hover effect
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -346,12 +372,14 @@ public class ChildController implements Initializable {
             back.setStyle("-fx-background-color: #4bc190;");
         });
 
+        // Back button functionality and hover effect
         add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                     Utilities.popUp("child_add.fxml", "Add Child");
+                    // Execution will stop here until the child_add view is closed.
 
-                    // Refresh window if child has been added
+                    // Refresh window if child has been added. The ChildAddController will flip this boolean to true if there is a new child instance.
                     if (refreshOnAdd) {
                         Stage stage = (Stage) add.getScene().getWindow();
                         stage.close();
@@ -368,6 +396,7 @@ public class ChildController implements Initializable {
             add.setStyle("-fx-background-color: #4bc190;");
         });
 
+        // Refresh button to manually refresh the view. Not needed anymore in most use-cases. Also hover effect.
         refresh.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
