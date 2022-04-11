@@ -52,7 +52,7 @@ Creating a new guardian. Children and Guardians are linked by means of the "Sele
 
 ![Select Child Popup](src/main/resources/com/main/daycare_administrative_system/assets/linkage.png)
 
-"Pop-Up" where we are selecting "Smug Kid" child to link with new parent from last view.
+"Pop-Up" where we are selecting "Smug Kid" child to link with new parent from last view. Mouse is hovering over the last instance.
 
 <br>
 
